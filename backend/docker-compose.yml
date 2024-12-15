@@ -1,5 +1,38 @@
 services:
     redis: 
       image: redis:latest
-      container_name: redis
+      container_name: redis_portfolio
+      ports:
+        - 6379:6379
+      healthcheck:
+          test: ["CMD", "redis-cli", "--raw", "incr", " ping"]
+      volumes:
+        - redis_data:/data
+    
+    mysql:
+      image: mysql:latest
+      container_name: sql_portfolio
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: change_me
+        MYSQL_DATABASE: hosting_test
+        MYSQL_USER: stefan
+        MYSQL_PASSWORD: change_me
+
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin:latest
+      container_name: phpmyadmin_portfolio
+      ports:
+        - "8080:80"
+      environment:
+        PMA_HOST: sql_portfolio
+        PMA_USER: root
+        PMA_PASSWORD: change_me
+        MYSQL_ROOT_PASSWORD: change_me
+      depends_on:
+        - mysql
       
+
+volumes:
+  redis_data:
