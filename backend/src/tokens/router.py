@@ -1,24 +1,29 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Cookie, Depends, HTTPException, Response
-from tokens.dependencies import does_token_exist
-from tokens.service import add_session
+from fastapi import APIRouter, Depends, HTTPException, Response
+from tokens.dependencies import does_token_exist, is_in_session
+from tokens.service import add_session, add_token
 
 router = APIRouter()
 
 
 @router.get("/token")
 async def get_token(response: Response, token: Annotated[bool, Depends(does_token_exist)]):
+
     if not token:
         raise HTTPException(status_code=401, detail="This token does not have permissions")
     session = add_session(token)
     response.set_cookie("session_id", value=session, httponly=True)
-    return {"message":"Token used successfully"}
+    return {"message":"Session created"}
 
     
 @router.post("/token")
-async def create_token(session_id: Annotated[str | None, Cookie()] = None):  
-    pass
+async def create_token(s: Annotated[bool, Depends(is_in_session)] = None):
+    if not s:
+        raise HTTPException(status_code=400, detail="Bad request, session is missing")
+    
+    return {"new token": add_token()}
+    
 
 
 
