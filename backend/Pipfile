@@ -13,6 +13,8 @@ pymysql = "*"
 pandas = "*"
 python-jose = "*"
 python-multipart = "*"
+redis = "*"
+cryptography = "*"
 
 [dev-packages]
 
