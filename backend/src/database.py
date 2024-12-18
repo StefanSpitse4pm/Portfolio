@@ -1,5 +1,6 @@
 from threading import Lock
 
+import config
 import pandas as pd
 import redis
 from sqlalchemy import MetaData, create_engine
@@ -39,14 +40,15 @@ class Cache:
             with cls._lock:
                 if not cls._instance:
                     cls._instance = super(Cache, cls).__new__(cls)
-                    cls._instance.connection =  cls.make_connection()
+                    cls._instance.connection =  cls.__make_connection()
         return cls._instance
     
-    def get_connection(self):
-        return self.connection
+    @classmethod
+    def get_connection(cls):
+        return cls().connection
 
-    def make_connection():
-        return  redis.Redis(host="localhost", port=6379, decode_responses=True)
-    
+    def __make_connection() -> redis.Redis:
+        return redis.Redis(host=config.redis_host, port=config.redis_port, decode_responses=True)
+        
     
     
