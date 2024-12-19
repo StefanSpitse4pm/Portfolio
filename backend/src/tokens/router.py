@@ -19,9 +19,6 @@ async def get_token(response: Response, token: Annotated[bool, Depends(does_toke
     
 @router.post("/token")
 async def create_token(s: Annotated[bool, Depends(is_in_session)] = None):
-    if not s:
-        raise HTTPException(status_code=400, detail="Bad request, session is missing")
-    
     return {"new token": add_token()}
     
 
