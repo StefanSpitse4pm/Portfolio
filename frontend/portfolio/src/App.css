@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+:root {
+  --background-color: #2d2d2d;
+  --terminal-color: #0C0C0C;
+  --top-bar-color: #2E2E2E;
+  --border-color: #2E2E2F;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@keyframes grain {
+  0% { background-position: 0, 0; }
+  10% { background-position: -200%, -200%; }
+  20% { background-position: -400%, -400%; }
+  30% { background-position: -600%, -600%; }
+  40% { background-position: -800%, -800%; }
+  50% { background-position: -1000%, -1000%; }
+  60% { background-position: -1200%, -1200%; }
+  70% { background-position: -1400%, -1400%; }
+  80% { background-position: -1600%,-1600%; }
+  90% { background-position: -1800%, -1800%; }
+  100% { background-position:2000%, 2000%; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.background {
+  width: 100vw;
+  height: 100vh;
+  background: url(../public/noise.png) repeat;
+  animation: grain 8s steps(10) infinite;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 4fr 2fr;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  
 }
 
-.App-link {
-  color: #61dafb;
+.background::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background-color: var(--background-color);
+  opacity: 0.92;
+  z-index: 10;
+  background-position: 0 0, 50px 50px;
+  background-size: 100px 100px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
