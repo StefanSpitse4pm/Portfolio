@@ -1,14 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import  {useState, UseEffect} from 'react';
-
+import Navbar from './components/navbar.js'
+import Login from './components/token.js'
 function App() {
-  
   return (
     <div className="background">
-
+      <Navbar/>
+      <Login />
     </div>
   );
+
 }
 
 
