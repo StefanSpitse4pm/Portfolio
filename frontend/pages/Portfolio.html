@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stefan Spitse</title>
+    <link rel="stylesheet" href="../css//style.css">
+    <script src="../js/portfolio.js"></script>
+</head>
+<body>
+   <main>
+        <nav>
+            <ul>
+                <li><a href="">Home</a></li>
+                <li><a href="">Portfolio</a></li>
+                <li><a href="">About me</a></li>
+                <li><a href="">Contact me</a></li>
+            </ul>
+        </nav>
+        <div class="main">
+        </div> 
+        <div id="popup">
+            <h3>Token hier</h3>
+            <form action="Portfolio.html">
+                <input type="text" required>
+                <button type="submit">Lets a go</button>
+            </form>
+        </div>
+        <script>
+
+            function getCookie(name) {
+            const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+            for (const cookie of cookies) {
+                if (cookie.startsWith(name + '=')) {
+                return cookie.split('=')[1];
+                }
+            }
+            return null;
+            }
+
+            const existingCookie = getCookie("session_id")
+            const popup = document.getElementById("popup")
+            
+            if (!existingCookie) {
+                popup.style.display = "block";
+            }
+        </script>
+    </main>    
+</body>
+</html>
