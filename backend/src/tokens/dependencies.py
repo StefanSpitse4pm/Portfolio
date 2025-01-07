@@ -1,20 +1,19 @@
-from database import Querying
-from fastapi import Depends
 from typing import Annotated
 
-from models import TokenModel
-
-from sqlalchemy import Select, func
+from database import Cache, Querying
+from fastapi import Cookie, Depends, HTTPException
+from redis import Redis
 
 
 async def get_db():
     db = Querying()
     return db
 
-async def does_token_exist(token: str, db: Annotated[Querying, Depends(get_db)]):
-    out = await db.Send(
-        Select(func.count())
-        .select_from(TokenModel)
-        .where(TokenModel.token.in_([token]))
-    )
-    return {token:out.iloc[0].to_list()[0] >= 1}
+def does_token_exist(r: Annotated[Redis, Depends(Cache.get_connection)], token: str) -> bool:
+    return r.get(f"auth:{token}")
+
+async def is_in_session(r: Annotated[Redis, Depends(Cache.get_connection)], session_id: Annotated[str | None, Cookie()] = None) -> bool:
+    s = r.get(f"session:{session_id}")
+    if not s:
+        raise HTTPException(status_code=400, detail="Bad request, session is missing")
+    return True

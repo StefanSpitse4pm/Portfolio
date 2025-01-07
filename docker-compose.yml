@@ -1,0 +1,61 @@
+services:
+    redis:
+      image: redis/redis-stack:latest
+      container_name: redis
+      ports:
+        - 6379:6379
+        - 8001:8001
+      command: [ "/entrypoint.sh", "./redis-stack.conf" ]
+      healthcheck:
+        test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      volumes:
+        - redis_data:/data
+      networks:
+        - backend_network
+    mysql:
+      image: mysql:latest
+      container_name: sql_portfolio
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: change_me
+        MYSQL_DATABASE: hosting_test
+        MYSQL_USER: stefan
+        MYSQL_PASSWORD: change_me
+      networks:
+        - backend_network
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin:latest
+      container_name: phpmyadmin_portfolio
+      ports:
+        - "8080:80"
+      environment:
+        PMA_HOST: sql_portfolio
+        PMA_USER: root
+        PMA_PASSWORD: change_me
+        MYSQL_ROOT_PASSWORD: change_me
+      depends_on:
+        - mysql
+
+    backend:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "80:80"
+      volumes:
+        - ./backend:/backend  # Mount local backend directory to container for live updates
+      environment:
+        - PYTHONUNBUFFERED=1  # Ensures logs are printed directly to the console
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+      networks:
+        - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
+volumes:
+  redis_data: {}
+
+  

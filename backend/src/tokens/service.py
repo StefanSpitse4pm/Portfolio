@@ -1,24 +1,21 @@
-from datetime import datetime, timedelta
+import secrets
 from uuid import uuid4
 
-from sqlalchemy import Insert, Select
-
-from models import Session, TokenModel
-from tokens.dependencies import get_db
+from database import Cache
+from tokens.dependencies import does_token_exist
 
 
-async def add_session(token:str):
-    db = await get_db()
+def add_session(token:str):
     session_token = str(uuid4())
-    
-    query_get_token_id = Select(TokenModel.id).where(TokenModel.token.in_([token]))
-    token_id = await db.Send(query_get_token_id)
-
-    insert_session_query = Insert(Session).values(
-            session=session_token,
-            token_id=int(token_id.iloc[0]),
-            expires_at=datetime.now() + timedelta(weeks=2)
-    )
-    await db.Send(insert_session_query)
+    r = Cache.get_connection()
+    r.setex(f"session:{session_token}", 3600, token)
     return session_token
-    
+
+def add_token():
+    token = secrets.token_hex(32)
+    r = Cache.get_connection()
+
+    two_weeks_in_seconds = 24 * 14 * 60 * 60    
+    r.setex(f"auth:{token}", two_weeks_in_seconds, 1)
+    if does_token_exist(Cache.get_connection(), token):
+        return token
