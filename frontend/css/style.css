@@ -23,9 +23,10 @@ a, h1, h2, h3{
 h1 {
     font-size: 70px;
     padding-left: 25%;
+
 }
 
-h2 {
+a > h2 {
     padding-left: 30%;
 }
 
@@ -35,8 +36,9 @@ main {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 3fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    
 }
 
 nav {
@@ -44,9 +46,69 @@ nav {
 }
 
 #popup {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: none;
     border: white 1px solid;
-    grid-column: 2 
-    
+    width: 400px;
+    height: 200px;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    border-radius: 5px;
+    box-shadow: 5px 10px 5px 5px;
+    z-index: 10;
 }
 
+#popup > form {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#popup > h2 {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.dimmed > *:not(#popup > *){
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 9;
+}
+
+.main {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    grid-column : 2 / span 2;  
+    flex-wrap: wrap; 
+}
+
+
+.container{
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.file {
+    width: 200px;
+    background-color: #3f3f3f;
+    border: white 1px solid;
+    border-radius: 5px;   
+    color: white;
+    margin-top: 10px;
+    flex-basis: calc(25% - 10px);
+    box-sizing: border-box;
+}
+
+.file > p {
+    margin: 10px;
+}
+
+.file:hover {
+    scale: 1.5;
+}
