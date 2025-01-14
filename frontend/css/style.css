@@ -1,6 +1,12 @@
+@font-face {
+    font-family: ubuntu;
+    src: url('../font/Ubuntu-Regular.ttf');
+}
+
 * {
     padding: 0;
     margin: 0;
+    font-family: 'ubuntu' sans-serif;
 }
 
 ul {
@@ -15,7 +21,7 @@ li {
     list-style-type: none;
 }
 
-a, p, h1, h2, h3{
+a, p, h1, h2, h3, label{
     color: white;
     text-decoration: none;
 }
@@ -115,6 +121,8 @@ nav {
     scale: 1.5;
 }
 
-.aboutme {
-        
+.tokeninput {
+   border: white 1px solid;
+   width: 400px;
+   height: 100px;
 }

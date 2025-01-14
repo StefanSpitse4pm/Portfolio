@@ -1,9 +1,8 @@
 <?php 
-
+session_start();
 if (empty($_SESSION['token'])) {
-    header('Location: index.html');
-} 
-
+    header('Location: index.php?nologgin=1');
+}
 ?>
 
 
@@ -19,7 +18,7 @@ if (empty($_SESSION['token'])) {
     
     <div id="popup">
         <h2>Token hier</h3>
-        <form action="Portfolio.html">
+        <form action="portfolio.php">
             <input type="text" required>
             <button type="submit">Lets a go</button>
         </form>
@@ -27,8 +26,8 @@ if (empty($_SESSION['token'])) {
    <main id="content">
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="Portfolio.html">Portfolio</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="portfolio.php">Portfolio</a></li>
                 <li><a href="aboutme.html">About me</a></li>
                 <li><a href="https://www.linkedin.com/in/stefan-spitse/">Contact me</a></li>
             </ul>
