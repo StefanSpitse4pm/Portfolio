@@ -15,7 +15,7 @@ li {
     list-style-type: none;
 }
 
-a, h1, h2, h3{
+a, p, h1, h2, h3{
     color: white;
     text-decoration: none;
 }
@@ -96,6 +96,7 @@ nav {
 
 .file {
     min-width: 200px;
+    max-width: 200px;
     min-height: 200px;
     background-color: #3f3f3f;
     border: white 1px solid;
@@ -112,4 +113,8 @@ nav {
 
 .file:hover {
     scale: 1.5;
+}
+
+.aboutme {
+        
 }
